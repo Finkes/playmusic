@@ -92,6 +92,12 @@ PlayMusic.prototype.request = function(options, callback) {
             if(typeof callback === "function") callback(err, body, res);
         });
     });
+    req.on('error', function (error) {
+        var err = new Error("Error making https request");
+        err.error = err;
+        if (typeof callback === "function") callback(err, null, null);
+        return;
+    });
     if(typeof options.data !== "undefined") req.write(options.data);
     req.end();
 };
